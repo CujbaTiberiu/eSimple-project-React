@@ -1,4 +1,10 @@
-import { Circle, Float, OrbitControls } from "@react-three/drei";
+import {
+  Circle,
+  Environment,
+  Float,
+  OrbitControls,
+  PresentationControls,
+} from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import React, { Suspense, startTransition, useEffect, useState } from "react";
 import Model from "./Model";
@@ -19,8 +25,8 @@ const MainPage = () => {
       );
       const fecthedData = await data.json();
       console.log(fecthedData[0]);
-      setData(fecthedData[0]);
-      setModelUrl(fecthedData[0].model);
+      setData(fecthedData[2]);
+      setModelUrl(fecthedData[2].model);
       console.log(modelUrl);
     } catch (error) {
       console.log(error);
@@ -35,25 +41,36 @@ const MainPage = () => {
   return (
     data && (
       <Suspense fallback={null}>
-        <Canvas camera={{ position: [-0.5, 2, 2] }} shadows>
+        <Canvas camera={{ position: [1, 1, 1.8], fov: 100 }} shadows>
           <directionalLight
             position={[1.3, 2, 4.4]}
             castShadow
             intensity={Math.PI * 2}
           />
           <Float
-            position={[0, 1.2, 0]}
+            position={[0, 0, 0]}
             rotation={[Math.PI / 0.5, 0, 0]}
             rotationIntensity={1}
             floatIntensity={1}
             speed={1.5}
           >
-            {modelUrl && modelUrl !== null && <Model url={modelUrl} />}
+            <PresentationControls
+              config={{ mass: 2, tension: 500 }}
+              snap={{ mass: 4, tension: 1500 }}
+              rotation={[0, 0.3, 0]}
+              polar={[-Math.PI / 6, Math.PI / 6]} //vertical
+              azimuth={[-Math.PI / 2, Math.PI / 2]} //horizontal
+            >
+              {modelUrl && modelUrl !== null && (
+                <Model url={modelUrl} data={data} shadows castShadow />
+              )}
+            </PresentationControls>
           </Float>
+          <Environment preset="sunset" />
           <Scene />
-          <OrbitControls target={[0, 1, 0]} />
-          {data && <Pinpoint data={data} />}
-          <Env />
+          {/* <OrbitControls target={[0, 1, 0]} /> */}
+          {/* {data && <Pinpoint data={data} />} */}
+          {/* <Env /> */}
         </Canvas>
       </Suspense>
     )

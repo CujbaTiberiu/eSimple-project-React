@@ -2,7 +2,7 @@ import { Environment, useFaceControls } from "@react-three/drei";
 import { useState, useTransition } from "react";
 
 function Env() {
-  const [preset, setPreset] = useState("studio");
+  const [preset, setPreset] = useState("city");
   // You can use the "inTransition" boolean to react to the loading in-between state,
   // For instance by showing a message
   const [inTransition, startTransition] = useTransition();
