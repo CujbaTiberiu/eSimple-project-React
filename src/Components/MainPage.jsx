@@ -1,7 +1,11 @@
-import { Circle, Html, OrbitControls } from "@react-three/drei";
-import { Canvas, useLoader } from "@react-three/fiber";
+import { Circle, Float, OrbitControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
 import React, { Suspense, startTransition, useEffect, useState } from "react";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import Model from "./Model";
+import Pinpoint from "./Pinpoint";
+import Env from "./Env";
+import { useTexture } from "@react-three/drei";
+import Scene from "./Scene";
 
 const MainPage = () => {
   const [data, setData] = useState([]);
@@ -10,19 +14,13 @@ const MainPage = () => {
   const fetchData = async () => {
     try {
       const data = await fetch(
-        "https://livemote-live.s3.amazonaws.com/up/db/data3d.json"
-        // {
-        //   mode: 'cors',
-        //   headers: {
-        //     'Access-Control-Allow-Origin': '*',
-        //     'Content-Type': 'application/json',
-        //   },
-        // }
+        "http://localhost:8080/api/glb"
+        //"https://livemote-live.s3.amazonaws.com/up/db/data3d.json"
       );
       const fecthedData = await data.json();
-      console.log(fecthedData);
-      setData(fecthedData);
-      setModelUrl(fecthedData?.model);
+      console.log(fecthedData[0]);
+      setData(fecthedData[0]);
+      setModelUrl(fecthedData[0].model);
       console.log(modelUrl);
     } catch (error) {
       console.log(error);
@@ -34,54 +32,31 @@ const MainPage = () => {
     });
   }, []);
 
-  //const proxyUrl = 'http://localhost:3000/proxy?url=https://metadisplay.esimple.it/models/wine.glb';
-  const gltf = useLoader(
-    GLTFLoader,
-    //'https://cdn.jsdelivr.net/gh/Sean-Bradley/React-Three-Fiber-Boilerplate@useGLTF/public/models/hammer.glb'
-    "/wine.glb"
-    //'https://metadisplay.esimple.it/models/wine.glb'
-    //modelUrl
-  );
-  console.log(gltf);
-  console.log(modelUrl);
-
   return (
-    <Suspense fallback={null}>
-      <Canvas camera={{ position: [-0.5, 2, 2] }} shadows>
-        <directionalLight
-          position={[1.3, 2, 4.4]}
-          castShadow
-          intensity={Math.PI * 2}
-        />
-        <primitive
-          object={gltf.scene}
-          position={[0, 1.2, 0]}
-          children-0-castShadow
-          scale={7.2}
-        />
-        <Circle args={[10]} rotation-x={-Math.PI / 2} receiveShadow castShadow>
-          <meshStandardMaterial />
-        </Circle>
-        <OrbitControls target={[0, 1, 0]} />
-        {/* <axesHelper args={[5]} /> */}
-        {/* <Stats /> */}
-        {data &&
-          data.pinpoints.map((pinpoint) => (
-            <Html
-              key={pinpoint.id}
-              scale={100}
-              rotation={[Math.PI / 2, 0, 0]}
-              position={pinpoint.position}
-            >
-              <div className="annotation">
-                <a href={pinpoint.link} target="_blank" rel="noreferrer">
-                  {pinpoint.name}
-                </a>
-              </div>
-            </Html>
-          ))}
-      </Canvas>
-    </Suspense>
+    data && (
+      <Suspense fallback={null}>
+        <Canvas camera={{ position: [-0.5, 2, 2] }} shadows>
+          <directionalLight
+            position={[1.3, 2, 4.4]}
+            castShadow
+            intensity={Math.PI * 2}
+          />
+          <Float
+            position={[0, 1.2, 0]}
+            rotation={[Math.PI / 0.5, 0, 0]}
+            rotationIntensity={1}
+            floatIntensity={1}
+            speed={1.5}
+          >
+            {modelUrl && modelUrl !== null && <Model url={modelUrl} />}
+          </Float>
+          <Scene />
+          <OrbitControls target={[0, 1, 0]} />
+          {data && <Pinpoint data={data} />}
+          <Env />
+        </Canvas>
+      </Suspense>
+    )
   );
 };
 
