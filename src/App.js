@@ -1,10 +1,15 @@
 import './App.css';
+import { IdProvider } from './Components/IdContext';
 import MainPage from './Components/MainPage';
+import Select from './Components/Select';
 
 function App() {
   return (
     <div className="App">
-      <MainPage />
+      <IdProvider>
+        <Select />
+        <MainPage />
+      </IdProvider>
     </div>
   );
 }
