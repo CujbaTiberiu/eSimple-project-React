@@ -7,7 +7,7 @@ export const useIdContext = () => {
 };
 
 export const IdProvider = ({ children }) => {
-  const [id, setId] = useState(null);
+  const [id, setId] = useState(14);
 
   return (
     <IdContext.Provider value={{ id, setId }}>{children}</IdContext.Provider>

@@ -44,7 +44,7 @@ const MainPage = () => {
   return (
     data && (
       <Suspense fallback={null}>
-        <Canvas camera={{ position: [1, 1, 1.8], fov: 100 }} shadows>
+        <Canvas camera={{ position: [1, 1, 5], fov: 50 }} shadows>
           <directionalLight
             position={[1.3, 2, 4.4]}
             castShadow

@@ -10,11 +10,9 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: rgb(97, 181, 209);
 }
 
-body {
-  background-color: rgb(106, 157, 174);
-}
 
 .annotation {
   width: 100px;
@@ -41,4 +39,8 @@ body {
 
 .annotation a:hover {
   color: darkblue;
+}
+
+.canvas {
+  margin-top: 50px;
 }

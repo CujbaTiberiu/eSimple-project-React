@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useIdContext } from "./IdContext";
+import { NativeSelect } from "@mantine/core";
 
 const Select = () => {
   const [data, setData] = useState([]);
@@ -22,23 +23,27 @@ const Select = () => {
     fetchData();
   }, []);
 
-  const handleClickId = (id) => {
-    console.log(id);
-    setId(id);
+  const handleSelectChange = (event) => {
+    const selectedId = event.target.value;
+    console.log(selectedId);
+    setId(selectedId);
   };
 
   return (
-    <>
-      <h1>Select item</h1>
-      <ul>
-        {data &&
-          data.map((item, index) => (
-            <li onClick={() => handleClickId(item.id)} key={item.id}>
-              Item n.{index + 1}
-            </li>
-          ))}
-      </ul>
-    </>
+    <NativeSelect
+      w={300}
+      px={2}
+      radius="md"
+      label="Select Item"
+      onChange={handleSelectChange}
+      value={data.id}
+    >
+      {data.map((item, index) => (
+        <option key={item.id} value={item.id}>
+          Item {index + 1}
+        </option>
+      ))}
+    </NativeSelect>
   );
 };
 
