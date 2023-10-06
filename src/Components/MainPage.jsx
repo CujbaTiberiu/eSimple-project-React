@@ -38,7 +38,7 @@ const MainPage = () => {
   const gltf = useLoader(
     GLTFLoader,
     //'https://cdn.jsdelivr.net/gh/Sean-Bradley/React-Three-Fiber-Boilerplate@useGLTF/public/models/hammer.glb'
-    "/wine.glb"
+    "https://res.cloudinary.com/dvuj15bl1/image/upload/v1696582103/vktzhybu8zpw6zxqphc6.glb"
     //'https://metadisplay.esimple.it/models/wine.glb'
     //modelUrl
   );
@@ -65,7 +65,7 @@ const MainPage = () => {
         <OrbitControls target={[0, 1, 0]} />
         {/* <axesHelper args={[5]} /> */}
         {/* <Stats /> */}
-        {data &&
+        {/* {data &&
           data.pinpoints.map((pinpoint) => (
             <Html
               key={pinpoint.id}
@@ -79,7 +79,7 @@ const MainPage = () => {
                 </a>
               </div>
             </Html>
-          ))}
+          ))} */}
       </Canvas>
     </Suspense>
   );
