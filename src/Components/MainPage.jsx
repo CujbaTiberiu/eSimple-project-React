@@ -12,21 +12,24 @@ import Pinpoint from "./Pinpoint";
 import Env from "./Env";
 import { useTexture } from "@react-three/drei";
 import Scene from "./Scene";
+import { useIdContext } from "./IdContext";
 
 const MainPage = () => {
   const [data, setData] = useState([]);
   const [modelUrl, setModelUrl] = useState(null);
+  const { id } = useIdContext();
+  console.log(id);
 
-  const fetchData = async () => {
+  const fetchData = async (id) => {
     try {
       const data = await fetch(
-        "http://localhost:8080/api/glb"
+        `http://localhost:8080/api/glb/${id}`
         //"https://livemote-live.s3.amazonaws.com/up/db/data3d.json"
       );
       const fecthedData = await data.json();
-      console.log(fecthedData[0]);
-      setData(fecthedData[2]);
-      setModelUrl(fecthedData[2].model);
+      console.log(fecthedData);
+      setData(fecthedData);
+      setModelUrl(fecthedData.model);
       console.log(modelUrl);
     } catch (error) {
       console.log(error);
@@ -34,9 +37,9 @@ const MainPage = () => {
   };
   useEffect(() => {
     startTransition(() => {
-      fetchData();
+      fetchData(id);
     });
-  }, []);
+  }, [id]);
 
   return (
     data && (
