@@ -41,3 +41,11 @@ a {
 .annotation:hover {
   color: rgb(97, 181, 209);
 }
+
+.div__buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+}

@@ -16,11 +16,17 @@ const MainPage = () => {
   const [data, setData] = useState([]);
   const [modelUrl, setModelUrl] = useState(null);
   const [orbitControlsEnabled, setOrbitControlsEnabled] = useState(false);
+  const [sceneEnabled, setSceneEnabled] = useState(true);
+
   const { id } = useIdContext();
   console.log(id);
 
   const toggleOrbitControls = () => {
     setOrbitControlsEnabled(!orbitControlsEnabled);
+  };
+
+  const toggleScene = () => {
+    setSceneEnabled(!sceneEnabled);
   };
 
   const fetchData = async () => {
@@ -45,19 +51,32 @@ const MainPage = () => {
   return (
     data && (
       <Suspense fallback={null}>
-        <Button
-          variant="filled"
-          color="teal"
-          size="md"
-          radius="md"
-          mx={30}
-          onClick={toggleOrbitControls}
-          w={240}
-        >
-          {!orbitControlsEnabled
-            ? "Activate OrbitControls"
-            : "Deactivate OrbitControls"}
-        </Button>
+        <div className="div__buttons">
+          <Button
+            variant="filled"
+            color="teal"
+            size="md"
+            radius="md"
+            mx={30}
+            onClick={toggleOrbitControls}
+            w={240}
+          >
+            {!orbitControlsEnabled
+              ? "Activate OrbitControls"
+              : "Deactivate OrbitControls"}
+          </Button>
+          <Button
+            variant="filled"
+            color="teal"
+            size="md"
+            radius="md"
+            mx={30}
+            onClick={toggleScene}
+            w={240}
+          >
+            {sceneEnabled ? "Deactivate Scene" : "Activate Scene"}
+          </Button>
+        </div>
         <Canvas camera={{ position: [1, 1, 5], fov: 50 }} shadows>
           <directionalLight
             position={[1.3, 2, 4.4]}
@@ -84,7 +103,7 @@ const MainPage = () => {
             </PresentationControls>
           </Float>
           <Environment preset="sunset" />
-          <Scene />
+          {sceneEnabled && <Scene />}
           {orbitControlsEnabled && <OrbitControls target={[0, 1, 0]} />}
         </Canvas>
       </Suspense>
