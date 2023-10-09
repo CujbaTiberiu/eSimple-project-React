@@ -11,6 +11,7 @@ body,
   margin: 0;
   padding: 0;
   background-color: rgb(97, 181, 209);
+  overflow: hidden;
 }
 
 
@@ -32,15 +33,11 @@ body,
   gap: 5px;
 }
 
-.annotation a {
+a {
   color: #f0f0f0;
   text-decoration: none;
 }
 
-.annotation a:hover {
-  color: darkblue;
-}
-
-.canvas {
-  margin-top: 50px;
+.annotation:hover {
+  color: rgb(97, 181, 209);
 }

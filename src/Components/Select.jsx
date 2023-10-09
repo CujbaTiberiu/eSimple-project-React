@@ -32,7 +32,8 @@ const Select = () => {
   return (
     <NativeSelect
       w={300}
-      px={2}
+      px={30}
+      py={10}
       radius="md"
       label="Select Item"
       onChange={handleSelectChange}

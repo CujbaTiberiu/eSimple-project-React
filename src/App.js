@@ -2,6 +2,7 @@ import './App.css';
 import { IdProvider } from './Components/IdContext';
 import MainPage from './Components/MainPage';
 import Select from './Components/Select';
+import Test from './Test';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Select />
         <MainPage />
       </IdProvider>
+      {/* <Test /> */}
     </div>
   );
 }

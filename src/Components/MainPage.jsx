@@ -6,21 +6,24 @@ import {
   PresentationControls,
 } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import React, { Suspense, startTransition, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Model from "./Model";
-import Pinpoint from "./Pinpoint";
-import Env from "./Env";
-import { useTexture } from "@react-three/drei";
 import Scene from "./Scene";
 import { useIdContext } from "./IdContext";
+import { Button } from "@mantine/core";
 
 const MainPage = () => {
   const [data, setData] = useState([]);
   const [modelUrl, setModelUrl] = useState(null);
+  const [orbitControlsEnabled, setOrbitControlsEnabled] = useState(false);
   const { id } = useIdContext();
   console.log(id);
 
-  const fetchData = async (id) => {
+  const toggleOrbitControls = () => {
+    setOrbitControlsEnabled(!orbitControlsEnabled);
+  };
+
+  const fetchData = async () => {
     try {
       const data = await fetch(
         `http://localhost:8080/api/glb/${id}`
@@ -36,14 +39,25 @@ const MainPage = () => {
     }
   };
   useEffect(() => {
-    startTransition(() => {
-      fetchData(id);
-    });
+    fetchData();
   }, [id]);
 
   return (
     data && (
       <Suspense fallback={null}>
+        <Button
+          variant="filled"
+          color="teal"
+          size="md"
+          radius="md"
+          mx={30}
+          onClick={toggleOrbitControls}
+          w={240}
+        >
+          {!orbitControlsEnabled
+            ? "Activate OrbitControls"
+            : "Deactivate OrbitControls"}
+        </Button>
         <Canvas camera={{ position: [1, 1, 5], fov: 50 }} shadows>
           <directionalLight
             position={[1.3, 2, 4.4]}
@@ -71,9 +85,7 @@ const MainPage = () => {
           </Float>
           <Environment preset="sunset" />
           <Scene />
-          {/* <OrbitControls target={[0, 1, 0]} /> */}
-          {/* {data && <Pinpoint data={data} />} */}
-          {/* <Env /> */}
+          {orbitControlsEnabled && <OrbitControls target={[0, 1, 0]} />}
         </Canvas>
       </Suspense>
     )
